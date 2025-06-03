@@ -1,0 +1,94 @@
+﻿@model Surveys_Project.Models.SurveyStatsViewModel
+
+@{
+    ViewData["Title"] = "Stats";
+}
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="form-container">
+    <div class="form-center-container">
+        <div class="form-box p-4">
+            <div class="form-nav-container mb-3 d-flex justify-content-between align-items-center">
+                <div class="surveys-label fw-bold" style="font-size: 14px;">
+                    _Surveys
+                </div>
+
+                <div class="form-nav-links">
+                    <ul class="navbar-nav flex-row mb-0">
+                        <li class="nav-item me-3">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Surveys" asp-action="Surveys">FILL OUT SURVEY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Surveys" asp-action="Stats">VIEW SURVEY RESULTS</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h5 class="text-center mb-4 fw-bold" style="font-size: 16px;">Survey Results</h5>
+
+       
+            <div class="mb-3">
+          
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Total number of surveys</label>
+                    <span>@Model.TotalSurveys</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Average Age</label>
+                    <span>@Model.AverageAge</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Oldest participant</label>
+                    <span>@Model.OldestParticipant</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Youngest participant</label>
+                    <span>@Model.YoungestParticipant</span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+               
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">People who like Pizza</label>
+                    <span>@Model.PizzaPercentage%</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">People who like Pasta</label>
+                    <span>@Model.PastaPercentage%</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">People who like Pap and Wors</label>
+                    <span>@Model.PapAndWorsPercentage%</span>
+                </div>
+            </div>
+
+        
+            <div class="mb-2">
+               
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Avg Movie Rating</label>
+                    <span>@Model.AvgMovieRating</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Avg Radio Rating</label>
+                    <span>@Model.AvgRadioRating</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Avg Eat Out Rating</label>
+                    <span>@Model.AvgEatOutRating</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+                    <label class="mb-0">Avg TV Rating</label>
+                    <span>@Model.AvgTVRating</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

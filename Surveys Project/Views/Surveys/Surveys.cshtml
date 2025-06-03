@@ -1,0 +1,156 @@
+﻿@model Surveys_Project.Models.SurveysViewModel
+
+@{
+    ViewData["Title"] = "Create Survey";
+}
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="form-container">
+    <div class="form-center-container">
+        <div class="form-box p-4">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <form asp-action="Surveys" asp-controller="Surveys" method="post" id="surveyForm">
+                <div class="form-nav-container mb-3 d-flex justify-content-between align-items-center">
+                    <div class="surveys-label fw-bold" style="font-size: 14px;">
+                        _Surveys
+                    </div>
+
+                    <div class="form-nav-links">
+                        <ul class="navbar-nav flex-row mb-0">
+                            <li class="nav-item me-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Surveys" asp-action="Surveys">FILL OUT SURVEY</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Surveys" asp-action="Stats">VIEW SURVEY RESULTS</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-section d-flex gap-3">
+                    <div class="personal-details-label" style="min-width: 120px; font-size: 14px; padding-top: 8px;">
+                        Personal Details
+                    </div>
+
+                    <div class="input-fields flex-grow-1">
+                        <div class="form-group mb-2">
+                            <label for="Survey_FullName">Full Name</label>
+                            <input asp-for="Survey.FullName" class="form-control" id="Survey_FullName" />
+                            <span asp-validation-for="Survey.FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="Survey_Email">Email</label>
+                            <input asp-for="Survey.Email" class="form-control" id="Survey_Email" />
+                            <span asp-validation-for="Survey.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="Survey_DOB">Date of Birth</label>
+                            <input asp-for="Survey.DOB" class="form-control" type="date" id="Survey_DOB" />
+                            <span asp-validation-for="Survey.DOB" class="text-danger"></span>
+                            <span id="AgeValidation" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="Survey_ContactNumber">Contact Number</label>
+                            <input asp-for="Survey.ContactNumber" class="form-control" id="Survey_ContactNumber" />
+                            <span asp-validation-for="Survey.ContactNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="d-flex flex-wrap gap-3">
+                        <label class="d-block mb-2">What is your favorite food?</label>
+                        @foreach (var food in Model.FoodOptions)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox"
+                                       name="SelectedFoods"
+                                       value="@food"
+                                       class="form-check-input"
+                                @(Model.SelectedFoods?.Contains(food) == true ? "checked" : "") />
+                                <label class="form-check-label">@food</label>
+                            </div>
+                        }
+                    </div>
+
+                    @if (ViewData.ModelState["SelectedFoods"]?.Errors.Any() == true)
+                    {
+                        <span class="text-danger">
+                            Please select at least one favorite food.
+                        </span>
+                    }
+
+                </div>
+
+                <div class="form-group">
+                    <label class="d-block">
+                        Please rate your level of agreement (1=Strongly Agree to 5=Strongly Disagree)
+                    </label>
+                    <table class="table table-bordered text-center mt-2">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th></th>
+                                <th>Strongly Agree</th>
+                                <th>Agree</th>
+                                <th>Neutral</th>
+                                <th>Disagree</th>
+                                <th>Strongly Disagree</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var q in new[] {
+                            new { Text = "I like to watch movies", Name = "RateMovies" },
+                            new { Text = "I like to listen to radio", Name = "RateRadio" },
+                            new { Text = "I like to eat out", Name = "RateEatOut" },
+                            new { Text = "I like to watch TV", Name = "RateTV" }
+                            })
+                            {
+                                <tr>
+                                    <td class="text-start">@q.Text</td>
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        var fieldName = $"Survey.{q.Name}";
+                                        <td>
+                                            <input type="radio"
+                                                   name="@fieldName"
+                                                   value="@i"
+                                            @(Model.Survey.GetType().GetProperty(q.Name)?.GetValue(Model.Survey)?.ToString() == i.ToString() ? "checked" : "") />
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        @if (ViewData.ModelState[$"Survey.{q.Name}"]?.Errors.Count > 0)
+                                        {
+                                            <span class="text-danger">@ViewData.ModelState[$"Survey.{q.Name}"].Errors[0].ErrorMessage</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center mt-4">
+                    <input type="submit" value="Submit" class="btn btn-primary px-4" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+}
+
+
+}
